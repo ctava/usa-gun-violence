@@ -1,0 +1,259 @@
+<!doctype html>
+<html lang="en" ng-app="myApp">
+<head>
+  <meta charset="utf-8">
+  <base href="/">
+  <title>violence</title>
+  <link rel="shortcut icon" type="image/ico" href="app/img/favicon.ico">
+  <script src="https://d3js.org/d3.v5.min.js"></script>
+  <script src="https://d3js.org/d3-array.v1.min.js"></script>
+  <script src="https://d3js.org/d3-geo.v1.min.js"></script>
+  <script src="https://d3js.org/d3-array.v1.min.js"></script>
+  <script src="https://d3js.org/d3-collection.v1.min.js"></script>
+  <script src="https://d3js.org/d3-color.v1.min.js"></script>
+  <script src="https://d3js.org/d3-format.v1.min.js"></script>
+  <script src="https://d3js.org/d3-interpolate.v1.min.js"></script>
+  <script src="https://d3js.org/d3-time.v1.min.js"></script>
+  <script src="https://d3js.org/d3-time-format.v2.min.js"></script>
+  <script src="https://d3js.org/d3-scale.v2.min.js"></script>
+
+  <script type="text/javascript">
+    var width = 900;
+    var height = 600;
+
+    //var projection = d3.geo.mercator();
+    var projection = d3.geoNaturalEarth1(),
+    path = d3.geoPath(projection);
+    var svg = d3.select("body").append("svg")
+        .attr("width", width)
+        .attr("height", height);
+    
+    var g = svg.append("g");
+    d3.json("https://s3-us-west-2.amazonaws.com/vida-public/geo/us.json", function(error, topology) {
+        g.selectAll("path")
+          .data(topojson.object(topology, topology.objects.countries)
+              .geometries)
+        .enter()
+          .append("path")
+          .attr("d", path)
+    });
+
+function makeMap(us) {
+  console.log("makeMap");
+        svg.append("g")
+            .attr("class", "categories-choropleth")
+          .selectAll("path")
+            .data(topojson.feature(us, us.objects.states).features)
+          .enter().append("path")
+            .attr("transform", "scale(" + SCALE + ")")
+            .style("fill", function(d) {
+              if (valueById.get(d.id)) {
+                var i = quantize(valueById.get(d.id));
+                var color = colors[i].getColors();
+                return "rgb(" + color.r + "," + color.g +
+                    "," + color.b + ")";
+              } else {
+                return "";
+              }
+            })
+            .attr("d", path)
+            .on("mousemove", function(d) {
+                var html = "";
+    
+                html += "<div class=\"tooltip_kv\">";
+                html += "<span class=\"tooltip_key\">";
+                html += id_name_map[d.id];
+                html += "</span>";
+                html += "<span class=\"tooltip_value\">";
+                html += (valueById.get(d.id) ? valueById.get(d.id) : "");
+                html += "";
+                html += "</span>";
+                html += "</div>";
+              
+                $("#tooltip-container").html(html);
+                $(this).attr("fill-opacity", "0.8");
+                $("#tooltip-container").show();
+              
+                var coordinates = d3.mouse(this);
+              
+                var map_width = $('.categories-choropleth')[0].getBoundingClientRect().width;
+              
+                if (d3.event.pageX < map_width / 2) {
+                  d3.select("#tooltip-container")
+                    .style("top", (d3.event.pageY + 15) + "px")
+                    .style("left", (d3.event.pageX + 15) + "px");
+                } else {
+                  var tooltip_width = $("#tooltip-container").width();
+                  d3.select("#tooltip-container")
+                    .style("top", (d3.event.pageY + 15) + "px")
+                    .style("left", (d3.event.pageX - tooltip_width - 30) + "px");
+                }
+            })
+            .on("mouseout", function() {
+                    $(this).attr("fill-opacity", "1.0");
+                    $("#tooltip-container").hide();
+                });
+    
+        svg.append("path")
+            .datum(topojson.mesh(us, us.objects.states, function(a, b) { return a !== b; }))
+            .attr("class", "categories")
+            .attr("transform", "scale(" + SCALE + ")")
+            .attr("d", path);
+      };
+
+function makeBars() {
+  console.log("makeBars");
+        var names = [],
+            ids = [],
+            name_values = [],
+            values = [],
+            chart,
+            width = 400,
+            bar_height = 20,
+            height = (bar_height + 2 * gap) * names.length;
+      
+        var total_categories = 0, categories_count = 0;
+        Object.keys(name_id_map).forEach(function(n) {
+          if (valueById.get(+name_id_map[n])) {
+            ids.push(+name_id_map[n]);
+            values.push(valueById.get(+name_id_map[n]));
+            name_values.push({name: n, value: valueById.get(+name_id_map[n])});
+            total_categories += valueById.get(+name_id_map[n]);
+            categories_count++;
+          }
+        });
+      
+        values.push(Math.round(total_categories / categories_count));
+        name_values.push({name: AVG_CATEGORY, value: Math.round(total_categories / categories_count)});
+      
+        values = values.sort(function(a, b) {
+          return -(a - b);
+        });
+      
+        name_values = name_values.sort(function(a, b) {
+          return -(a.value - b.value);
+        });
+      
+        name_values.forEach(function(d) {
+          names.push(d.name);
+        });
+    
+        var left_width = 150;
+      
+        var x = d3.scale.linear()
+           .domain([0, d3.max(values)])
+           .range([0, width]);
+      
+        var xAxis = d3.svg.axis()
+          .scale(x)
+          .orient("top");
+     
+        var gap = 2;
+        // redefine y for adjusting the gap
+        var y = d3.scaleOrdinal()
+          .domain(names)
+          .rangeBands([0, (bar_height + 2 * gap) * names.length]);
+    
+        chart = d3.select("#canvas-svg")
+          .append('svg')
+          .attr('class', 'chart')
+          .attr('width', left_width + width + 100)
+          .attr('height', (bar_height + gap * 2) * names.length + 30)
+          .append("g")
+          .attr("transform", "translate(10, 20)");
+    
+        chart.append("g")
+          .attr("class", "x axis")
+          .attr("transform", "translate(" + left_width + ", 0)")
+          .call(xAxis)
+        .append("text")
+          .attr("transform", "rotate(90) translate(10, " + (-width - 20) + ")")
+          .attr("y", 6)
+          .attr("dy", ".71em")
+          .style("text-anchor", "right")
+          .text(MAP_VALUE);
+    
+        chart.selectAll(".tick").append("line")
+          .attr("x1", 0)
+          .attr("x2", 0)
+          .attr("y1", 0)
+          .attr("y2", (bar_height + gap * 2) * names.length);
+    
+        chart.selectAll("rect")
+          .data(name_values)
+          .enter().append("rect")
+          .attr("x", left_width)
+          .attr("y", function(d) { return y(d.name) + gap; })
+          .attr("name", function(d, i) {
+            return d.name;
+          })
+          .attr("width", function(d, i) {
+            return x(d.value);
+          })
+          .attr("height", bar_height)
+          .style("fill", function(d) {
+            var i = quantize(d.value);
+            var color = colors[i].getColors();
+            return "rgb(" + color.r + "," + color.g +
+                "," + color.b + ")";
+          })
+          .attr("class", function(d) {
+            if (d.name === MAIN_CATEGORY || d.name === AVG_CATEGORY) {
+              return "main-category-bar";
+            } else {
+              return "category-bar";
+            }
+          });
+    
+        chart.selectAll("text.score")
+          .data(name_values)
+          .enter().append("text")
+          .attr("x", function(d) { return x(d.value) + left_width; })
+          .attr("y", function(d, i){ return y(d.name) + y.rangeBand()/2; } )
+          .attr("dx", -5)
+          .attr("dy", ".36em")
+          .attr("text-anchor", "end")
+          .attr('class', 'score')
+          .text(function(d) {
+            return d.value;
+          });
+     
+        chart.selectAll("text.name")
+          .data(name_values)
+          .enter().append("text")
+          .attr("x", left_width / 2)
+          .attr("y", function(d, i){
+            return y(d.name) + y.rangeBand()/2; } )
+          .attr("dy", ".36em")
+          .attr("text-anchor", "middle")
+          .attr('class', function(d) {
+            if (d.name === MAIN_CATEGORY || d.name === AVG_CATEGORY) {
+              return "main-category-text";
+            } else {
+              return "";
+            }
+          })
+          .text(function(d) {
+            return d.name;
+          });
+      };
+
+
+     d3.json("https://s3-us-west-2.amazonaws.com/vida-public/geo/us.json", function(error, us) {
+      console.log("d3.json call back");
+        makeMap(us);
+        makeBars(data);
+      });
+
+    </script>
+
+</head>
+<body>
+
+    <div id="tooltip-container"></div>
+
+    <div id="canvas-svg"></div>
+
+
+</body>
+</html>

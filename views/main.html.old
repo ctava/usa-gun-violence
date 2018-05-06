@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="myApp">
+  <head>
+    <meta charset="utf-8"/>
+    <base href="/">
+    <link rel="shortcut icon" type="image/ico" href="app/img/favicon.ico">
+    <title>{% block title %}Gun Violence{% endblock %}</title>
+    <style>
+      input {
+        display: block;
+      }
+    </style>
+  <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+  <link rel="stylesheet" href="app/css/bootstrap-combined.min.css"/>
+  <link rel="stylesheet" href="app/css/app.css"/>
+  <link rel="stylesheet" href="app/css/angular-responsive-tables.min.css">
+  <link rel="stylesheet" href="app/css/responsive-tables-ie.css">
+  <link rel="stylesheet" href="app/css/animations.css">
+  <link rel="stylesheet" href="app/css/jquery-ui.css">
+  <link rel="shortcut icon" type="image/ico" href="app/img/favicon.ico">
+
+  <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+  <link rel="stylesheet" href="app/css/bootstrap-combined.min.css"/>
+  <link rel="stylesheet" href="app/css/app.css"/>
+  <link rel="stylesheet" href="app/css/angular-responsive-tables.min.css">
+  <link rel="stylesheet" href="app/css/responsive-tables-ie.css">
+  <link rel="stylesheet" href="app/css/animations.css">
+  <link rel="stylesheet" href="app/css/jquery-ui.css">
+
+  <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular-animate.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular-resource.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular-route.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular-cookies.js"></script>
+  <script src="//angular-ui.github.io/bootstrap/ui-bootstrap-tpls-1.3.2.js"></script>
+  <script src="https://d3js.org/d3.v5.min.js"></script>
+  <script src="app/lib/angular/angular-responsive-tables.min.js"></script>
+  <script src="app/lib/angular/angular-sanitize.js"></script>
+  <script src="app/lib/angular/ng-csv.js"></script>
+  <script src="app/lib/lodash/lodash.js"></script>
+  <script src="app/lib/jquery/jquery.js"></script>
+  <script src="app/lib/jquery/jquery-ui.js"></script>
+
+  <script src="app/js/utils.js"></script>
+  <script src="app/js/app.js"></script>
+  <script src="app/js/ui.js"></script>
+  <script src="app/js/services.js"></script>
+  <script src="app/js/controllers.js"></script>
+  <script src="app/js/filters.js"></script>
+  <script src="app/js/directives.js"></script>
+  <script src="app/js/animations.js"></script>
+  <script>
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+  
+    ga('create', 'UA-79559806-2', 'auto');
+    ga('send', 'pageview');
+  </script>
+  </head>
+
+  <body>
+
+  <div class="content">
+    {% block maincontent %}
+
+    {% endblock %}
+  </div>
+
+  </body>
+</html>

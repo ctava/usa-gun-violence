@@ -1,0 +1,12 @@
+<!--[if IE 9]>
+<style>
+/* rules for IE9 only */
+.responsive {
+    overflow: hidden;
+}
+.responsive td:nth-child(odd), .responsive td:nth-child(even) {
+    float: left;
+    width: 100%;
+}
+</style>
+<![endif]-->

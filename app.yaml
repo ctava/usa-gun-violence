@@ -1,0 +1,47 @@
+runtime: python27
+api_version: 1
+threadsafe: yes
+
+handlers:
+
+- url: /app
+  script: main.app
+  secure: always
+
+- url: /main
+  script: main.app
+  secure: always 
+
+- url: /yearsummary
+  script: main.app
+  secure: always
+
+- url: /data
+  script: main.app
+  secure: always 
+
+- url: /
+  script: main.app
+  secure: always
+
+- url: /img/favicon.ico
+  static_files: favicon.ico
+  upload: favicon.ico
+
+- url: /img
+  static_dir: img
+  secure: always
+
+- url: /app
+  static_dir: app
+  secure: always
+
+libraries:
+- name: webapp2
+  version: "2.5.2"
+
+skip_files:
+- .git
+- data/
+- ^(.*/)?\.csv$ 
+- ^(.*/)?Icon\r 
