@@ -165,3 +165,20 @@ tr.highlight { background-color: white; color: maroon; }
   stroke: #FF4A4A;
   stroke-width: 2px;
 }
+
+h1.lead2 {
+  font-size: 24px;
+  padding:0 16px 0 0; /* whatever the dimensions the image needs */
+  background-image: url('../app/img/favicon.png') no-repeat left center; /* Position left/right/whatever */
+}
+
+.header img {
+  top: 20px;
+  width: 60px;
+  height: 60px;
+}
+
+.header h1 {
+  top: 20px;
+  left: 40px;
+}
