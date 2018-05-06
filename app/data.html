@@ -1,16 +1,16 @@
 <div class="well-large pop">
   <div data-ng-init="changeYear()"></div>
-  <div align="left" class="header">
+  <div align="center" class="header">
       <img class="header" src="./app/img/favicon.png"/>
       <h1>USA Gun Violence</h1>
   </div>
   <div>
-  <h3 align="left" class="lead">Source of data: <a href="https://www.kaggle.com/jameslko/gun-violence-data/data"> Kaggle Data Set</a></h3>
+  <h3 align="center" class="lead">Source of data: <a href="https://www.kaggle.com/jameslko/gun-violence-data/data"> Kaggle Data Set</a></h3>
   </div>
-  <div align="left">
+  <div align="center">
     <select ng-change="changeYear()" ng-model="currentYear" ng-options="year.name as year.value for year in years"></select>
   </div>
-  <div align="left">
+  <div align="center">
       <img id="glyph" class="glyph" src="./app/img/2018.png" />
       <table class="wt-responsive-table table-striped">
           <thead>
