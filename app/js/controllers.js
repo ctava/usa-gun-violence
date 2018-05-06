@@ -25,16 +25,15 @@ angular.module('myApp.controllers', [])
       { name : '2018', value: '2018' },
     ];
     
-    $scope.fetchMonthsForCurrentYear = function() {
-      console.log('fetchMonthsForCurrentYear ' + $scope.currentYear);
-
+    $scope.changeYear = function() {
+      console.log('changeYear ' + $scope.currentYear);
       Months.query({"year":$scope.currentYear},function(months) {
         $scope.months = months;
         $scope.filteredmonths = months;
       });
 
+      var image = document.getElementById("glyph");
+      image.setAttribute("src","./app/img/"+$scope.currentYear+".png");
     };
-
-
 
   }]);

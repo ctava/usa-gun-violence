@@ -1,17 +1,17 @@
 <div class="well-large pop">
-  <div data-ng-init="fetchMonthsForCurrentYear()"></div>
-  <div align="center" class="header">
-      <img src="./app/img/favicon.png"/>
+  <div data-ng-init="changeYear()"></div>
+  <div align="left" class="header">
+      <img class="header" src="./app/img/favicon.png"/>
       <h1>USA Gun Violence</h1>
   </div>
-  <div style="background-color: GHOSTWHITE;">
-  <h3 align="center" class="lead">Source of data: <a href="https://www.kaggle.com/jameslko/gun-violence-data/data"> Kaggle Data Set</a></h3>
+  <div>
+  <h3 align="left" class="lead">Source of data: <a href="https://www.kaggle.com/jameslko/gun-violence-data/data"> Kaggle Data Set</a></h3>
   </div>
-  <div align="center">
-    <select ng-change="fetchMonthsForCurrentYear()" ng-model="currentYear" ng-options="year.name as year.value for year in years"></select>
+  <div align="left">
+    <select ng-change="changeYear()" ng-model="currentYear" ng-options="year.name as year.value for year in years"></select>
   </div>
-</br>
-  <div align="center">
+  <div align="left">
+      <img id="glyph" class="glyph" src="./app/img/2018.png" />
       <table class="wt-responsive-table table-striped">
           <thead>
             <tr>
