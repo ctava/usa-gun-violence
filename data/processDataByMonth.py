@@ -10,8 +10,8 @@ import datetime as dt
 import matplotlib.pyplot as plt
 
 #Variables
-#hostname = 'https://usa-gun-violence.appspot.com'
-hostname = 'http://localhost:8080'
+hostname = 'https://usa-gun-violence.appspot.com'
+#hostname = 'http://localhost:8080'
 #endpoint = '/data'
 endpoint = '/yearsummary'
 
@@ -97,10 +97,12 @@ def prepData(year):
 print "Start"        
 beginTime = time.time();  
 
-#year = 2013
+year = 2013
 #prepData(year)
+putYearSummary(hostname,endpoint,year)
 #putYearSummaryByMonth(hostname,endpoint,year)
 
+'''
 year = 2014
 prepData(year)
 
@@ -118,7 +120,7 @@ prepData(year)
 
 #putYearSummaryByMonth(hostname,endpoint,year)
 
-'''
+
 year = 2015
 putYearSummary(hostname,endpoint,year)
 
