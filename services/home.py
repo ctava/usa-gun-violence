@@ -7,4 +7,4 @@ from base import BaseHandler
 
 class HomeHandler(BaseHandler):
   def get(self):
-    self.render_template('new.html')
+    self.render_template('index.html')

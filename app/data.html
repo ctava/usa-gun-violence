@@ -1,12 +1,33 @@
 <div class="well-large pop">
-  <div data-ng-init="fetchDataSet()"></div>
+  <div data-ng-init="fetchMonthsForCurrentYear()"></div>
   <h1 align="center" class="lead">USA Gun Violence</h1>
   <div style="background-color: GHOSTWHITE;">
   <h3 align="center" class="lead">Source of data: <a href="https://www.kaggle.com/jameslko/gun-violence-data/data"> Kaggle Data Set</a></h3>
   </div>
   <div align="center">
-    <select ng-change="" ng-model="currentYear" ng-options="year.name as year.value for year in years"></select>
+    <select ng-change="fetchMonthsForCurrentYear()" ng-model="currentYear" ng-options="year.name as year.value for year in years"></select>
   </div>
+</br>
+  <div align="center">
+      <table class="wt-responsive-table table-striped">
+          <thead>
+            <tr>
+              <th class="text-center span1">Month</th>
+              <th class="text-center span1">Injured</th>
+              <th class="text-center span1">Killed</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr onMouseOver="this.className='highlight'" onMouseOut="this.className='normal'" ng-repeat="month in filteredmonths = (months | filter:{month: monthsearch.month}) | orderBy:['+month']">
+              <td class="text-center">{{month.month}}</td>
+              <td class="text-center">{{month.n_injured}}</td>
+              <td class="text-center">{{month.n_killed}}</td>
+            </tr>
+          </tbody>
+          </table>
+  </div>
+
+
   <div id="canvas-svg"></div>
   <script type="text/javascript">
     var width = 900;

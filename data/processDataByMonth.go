@@ -13,8 +13,8 @@ import (
 )
 
 var (
-	hostname = "https://usa-gun-violence.appspot.com"
-	//hostname = "http://localhost:8080"
+	//hostname = "https://usa-gun-violence.appspot.com"
+	hostname = "http://localhost:8080"
 	//endpoint = "/data"
 	endpoint = "/yearsummary"
 )
@@ -78,17 +78,17 @@ func putYearSummaryByMonth(hostname, endpoint, year string) {
 }
 
 func main() {
-	/*
-		year := "2013"
-		putYearSummaryByMonth(hostname, endpoint, year)
-		year = "2014"
-		putYearSummaryByMonth(hostname, endpoint, year)
-		year = "2015"
-		putYearSummaryByMonth(hostname, endpoint, year)
-		year = "2016"
-		putYearSummaryByMonth(hostname, endpoint, year)
-		year = "2017"
-		putYearSummaryByMonth(hostname, endpoint, year) */
-	year := "2018"
+
+	year := "2013"
+	putYearSummaryByMonth(hostname, endpoint, year)
+	year = "2014"
+	putYearSummaryByMonth(hostname, endpoint, year)
+	year = "2015"
+	putYearSummaryByMonth(hostname, endpoint, year)
+	year = "2016"
+	putYearSummaryByMonth(hostname, endpoint, year)
+	year = "2017"
+	putYearSummaryByMonth(hostname, endpoint, year)
+	year = "2018"
 	putYearSummaryByMonth(hostname, endpoint, year)
 }

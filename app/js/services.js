@@ -1,6 +1,6 @@
 'use strict';
 
 angular.module('myApp.services', ['ngResource'])
-  .factory('Data', function($resource){
-    return $resource('/data')
+  .factory('Months', function($resource){
+    return $resource('/yearsummary')
   });

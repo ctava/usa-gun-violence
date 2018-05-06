@@ -39,7 +39,7 @@ class YearSummaryHandler(webapp2.RequestHandler):
                 if iteration == 1:
                   response += '['
                 if iteration >= 1:
-                  response += '{year":"'+str(i.year)+'","month":"'+str(i.month)+'","n_killed":"'+str(i.n_killed)+'","n_injured":"'+str(i.n_injured)+'"'
+                  response += '{"year":"'+str(i.year)+'","month":"'+str(i.month)+'","n_killed":"'+str(i.n_killed)+'","n_injured":"'+str(i.n_injured)+'"'
                 if iteration != query.count():
                     response += '},'
                 if iteration == query.count():
