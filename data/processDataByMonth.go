@@ -6,6 +6,7 @@ import (
 	"net/http"
 	"net/url"
 	"os"
+	"strconv"
 	"strings"
 
 	"github.com/kniren/gota/dataframe"
@@ -55,6 +56,11 @@ func callService(hostname, endpoint, year, month, n_injured, n_killed string) er
 func putYearSummaryByMonth(hostname, endpoint, year string) {
 
 	for i := 1; i < 13; i++ {
+		y, err := strconv.Atoi(year)
+		check(err)
+		if y == 2018 && i > 3 {
+			break
+		}
 		month := fmt.Sprintf("%02d", i)
 		fileName := fmt.Sprintf("%s-%s.csv", year, month)
 		f, err := os.Open(fileName)
@@ -74,7 +80,6 @@ func putYearSummaryByMonth(hostname, endpoint, year string) {
 		err = callService(hostname, endpoint, year, month, fmt.Sprintf("%s", strings.TrimRight(n_injured[1][0], ".000000")), fmt.Sprintf("%s", strings.TrimRight(n_killed[1][0], ".000000")))
 		check(err)
 	}
-
 }
 
 func main() {

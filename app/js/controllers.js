@@ -17,7 +17,6 @@ angular.module('myApp.controllers', [])
     }
 
     $scope.years = [
-      { name : '2013', value: '2013' },
       { name : '2014', value: '2014' },
       { name : '2015', value: '2015' },
       { name : '2016', value: '2016' },
