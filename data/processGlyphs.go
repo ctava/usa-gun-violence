@@ -48,7 +48,7 @@ func main() {
 }
 
 func createGlyphSummaryByYear(year string) {
-
+	months = nil
 	for i := 1; i < 13; i++ {
 		y, err := strconv.Atoi(year)
 		check(err)
@@ -85,16 +85,17 @@ func addToGraphData(month, n_injured, n_killed string) {
 func makeGraph(year string) {
 
 	// Prepare the data for plotting
-	xys := preparePlotData()
+	xys1 := preparePlotData1()
+	xys2 := preparePlotData2()
 
 	// Create and save the plot.
-	if err := makePlot(year, xys); err != nil {
+	if err := makePlot(year, xys1, xys2); err != nil {
 		log.Fatal(err)
 	}
 }
 
 // preparePlotData prepares the raw input data for plotting.
-func preparePlotData() plotter.XYs {
+func preparePlotData2() plotter.XYs {
 	pts := make(plotter.XYs, len(months))
 	var i int
 
@@ -111,8 +112,26 @@ func preparePlotData() plotter.XYs {
 	return pts
 }
 
+// preparePlotData prepares the raw input data for plotting.
+func preparePlotData1() plotter.XYs {
+	pts := make(plotter.XYs, len(months))
+	var i int
+
+	for _, month := range months {
+		n_killed, err := strconv.ParseFloat(month.n_killed, 64)
+		check(err)
+		pts[i].Y = float64(n_killed)
+		month, err := strconv.ParseFloat(month.month, 64)
+		check(err)
+		pts[i].X = float64(month)
+		i++
+	}
+
+	return pts
+}
+
 // makePlots makes the plots for the year-month.
-func makePlot(year string, xys plotter.XYs) error {
+func makePlot(year string, xys1, xys2 plotter.XYs) error {
 
 	// Create a plot value.
 	p, err := plot.New()
@@ -121,11 +140,11 @@ func makePlot(year string, xys plotter.XYs) error {
 	}
 
 	// Label the plot.
-	p.Y.Label.Text = "People"
+	p.Y.Label.Text = "People Affected"
 	p.X.Label.Text = "Months"
 
 	// Add both sets of points: n_injured, n_killed by month
-	if err := plotutil.AddLinePoints(p, "N_Injured", xys); err != nil {
+	if err := plotutil.AddLinePoints(p, "", xys1, "", xys2); err != nil {
 		return errors.Wrap(err, "Could not add lines to plot")
 	}
 
